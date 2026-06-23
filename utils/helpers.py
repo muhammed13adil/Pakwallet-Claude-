@@ -33,17 +33,21 @@ def render_sidebar() -> None:
         st.markdown(f"### Welcome, {st.session_state.get('full_name', 'User')}!")
         st.markdown("---")
         
-        pages = {
-            "Dashboard": "pages/1_📊_Dashboard.py",
-            "Calculators": "pages/2_💰_Mutual_Fund_Calculator.py",
-            "Savings Goals": "pages/8_🎯_Savings_Goals.py",
-            "Bill Payments": "pages/9_🧾_Bill_Payments.py",
-            "AI Assistant": "pages/10_🤖_AI_Budget_Assistant.py",
-            "Analytics": "pages/11_📈_Analytics.py",
-        }
+        pages = [
+            ("📊 Dashboard", "pages/1_📊_Dashboard.py"),
+            ("🧮 Calculators", "pages/2_💰_Mutual_Fund_Calculator.py"),
+            ("🎯 Savings Goals", "pages/8_🎯_Savings_Goals.py"),
+            ("🧾 Bill Payments", "pages/9_🧾_Bill_Payments.py"),
+            ("🤖 AI Assistant", "pages/10_🤖_AI_Budget_Assistant.py"),
+            ("📈 Analytics", "pages/11_📈_Analytics.py"),
+        ]
         
-        for label, target in pages.items():
-            st.page_link(target, label=label)
+        for label, target in pages:
+            try:
+                st.page_link(target, label=label)
+            except KeyError:
+                # Page file doesn't exist or isn't properly registered
+                st.caption(f"⚠️ {label} (unavailable)")
         
         st.markdown("---")
         if st.button("Logout", use_container_width=True):
